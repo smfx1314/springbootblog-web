@@ -289,11 +289,9 @@
 			$.ajax({
 		        type:"post",
 		        url:"http://localhost:8080/contents/uploadImage",
-		        xhrFields:{widthCredentials:true},
 		        xhrFields:{
-              widthCredentials:true
-            },
-            crossDomain:true,
+	              widthCredentials:true
+	            },
 		        async:false,
 		        data:formData,
 		        /**
@@ -326,11 +324,9 @@
 			$.ajax({
 		        type:"post",
 		        url:"http://localhost:8080/contents/insertBlog",
-		        xhrFields:{widthCredentials:true},
 		        xhrFields:{
-              widthCredentials:true
-            },
-            crossDomain:true,
+	              widthCredentials:true
+	            },
 		        async:false,
 		        data:{
 		        	"title":$("#article-title").val(),

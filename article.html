@@ -265,7 +265,6 @@ $(function(){
         $.ajax({
             url:"http://localhost:8080/contents/getAllContents",
             type:"GET",
-            xhrFields:{widthCredentials:true},
             xhrFields:{
               widthCredentials:true
             },
@@ -407,11 +406,9 @@ $(document).on("click",".delete_btn",function () {
             $.ajax({
                 url:"http://localhost:8080/contents/deleteById",
                 type:"get",
-                xhrFields:{widthCredentials:true},
                 xhrFields:{
                   widthCredentials:true
                 },
-                crossDomain:true,
                 data:{
                 	"id": id
                 },

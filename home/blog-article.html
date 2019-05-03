@@ -183,7 +183,7 @@ $(function(){
 	$('.emotion').qqFace({
 		id : 'facebox', 
 		assign:'comment-textarea', 
-		path:'/Home/images/arclist/'	//表情存放的路径
+		path:'images/arclist/'	//表情存放的路径
 	});
  });   
 
@@ -215,7 +215,9 @@ $(function(){
         $.ajax({
             url:"http://localhost:8080/contents/getById",
             type:"GET",
-            xhrFields:{widthCredentials:true},
+            xhrFields:{
+            	widthCredentials:true
+            },
             data:{
                 "id":getQueryVariable("id")
             },

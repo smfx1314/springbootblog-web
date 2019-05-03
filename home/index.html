@@ -241,7 +241,9 @@ $(function(){
         $.ajax({
             url:"http://localhost:8080/blog/getAllBlog",
             type:"GET",
-            xhrFields:{widthCredentials:true},
+            xhrFields:{
+            	widthCredentials:true
+            },
             data:{
               "pageNum": pageNum
             },
@@ -296,14 +298,6 @@ function reloadDom(){
 	        window.location.href="blog-article.html?id="+id;
         })
     }
-   //遍历元素
-  /*$.each(contentsList, function (index, item) {
-      $("#blog-id").attr("value",item.cid);
-      $("#blog-description").text(item.description);
-      $("#blog-title").text(item.title);
-      $("#blog-time").text(item.created);
-  })*/
-    
 }
 
 
