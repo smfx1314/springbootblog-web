@@ -6,11 +6,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<<<<<<< HEAD
-<title>登录 - 异清轩博客管理系统</title>
-=======
 <title>登录 - 简博客管理系统</title>
->>>>>>> 完善点击blog标题查看详细内容
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/login.css">
@@ -65,14 +61,11 @@ $(function(){
 		 $.ajax({
 		        type:"get",
 		        url:"http://localhost:8080/user/checkUsername",
-<<<<<<< HEAD
 		        xhrFields:{widthCredentials:true},
-=======
 		        xhrFields:{
 		        	widthCredentials:true
 		        },
 		        crossDomain:true,
->>>>>>> 完善点击blog标题查看详细内容
 		        async:false,
 		        data:{
 		        	"username":$("#username").val()
@@ -102,14 +95,11 @@ $(function(){
 		 $.ajax({
 		        type:"get",
 		        url:"http://localhost:8080/user/login",
-<<<<<<< HEAD
 		        xhrFields:{widthCredentials:true},
-=======
 		        xhrFields:{
 		        	widthCredentials:true
 		        },
 		        crossDomain:true,
->>>>>>> 完善点击blog标题查看详细内容
 		        async:false,
 		        data:{
 		        	"username":$("#username").val(),

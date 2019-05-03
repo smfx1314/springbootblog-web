@@ -6,11 +6,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<<<<<<< HEAD
-<title>文章 - 异清轩博客管理系统</title>
-=======
 <title>文章 - 简博客管理系统</title>
->>>>>>> 完善点击blog标题查看详细内容
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -269,14 +265,11 @@ $(function(){
         $.ajax({
             url:"http://localhost:8080/contents/getAllContents",
             type:"GET",
-<<<<<<< HEAD
             xhrFields:{widthCredentials:true},
-=======
             xhrFields:{
               widthCredentials:true
             },
             crossDomain:true,
->>>>>>> 完善点击blog标题查看详细内容
             data:{
             	"pageNum": pageNum
             },
@@ -307,11 +300,8 @@ function reloadDom(){
     for (var i=0; i<contentsList.length; i++) {
         var contentDo = contentsList[i];
         var dom = "<tr data-id='"+contentDo.cid+"'><td>"+contentDo.cid+"</td>\n" +
-<<<<<<< HEAD
         	"<td><img style='height: 40px;width: 40px' src='http://localhost:8080/upload/"+contentDo.titleUrl+"'></td>\n" +
-=======
         	"<td><img style='height: 40px;width: 40px' src='http://148.70.185.3:8090/blogimage/"+contentDo.titleUrl+"'></td>\n" +
->>>>>>> 完善点击blog标题查看详细内容
             "<td>"+contentDo.title+"</td>\n" +
             "<td>"+contentDo.status+"</td>\n" +
             "<td>"+contentDo.tags+"</td>\n" +
@@ -417,14 +407,11 @@ $(document).on("click",".delete_btn",function () {
             $.ajax({
                 url:"http://localhost:8080/contents/deleteById",
                 type:"get",
-<<<<<<< HEAD
                 xhrFields:{widthCredentials:true},
-=======
                 xhrFields:{
                   widthCredentials:true
                 },
                 crossDomain:true,
->>>>>>> 完善点击blog标题查看详细内容
                 data:{
                 	"id": id
                 },
