@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="order by dede58.com"/>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
+<title>登录 - 异清轩博客管理系统</title>
+=======
+<title>登录 - 简博客管理系统</title>
+>>>>>>> 完善点击blog标题查看详细内容
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/login.css">
+<link rel="apple-touch-icon-precomposed" href="images/icon/icon.png">
+<link rel="shortcut icon" href="images/icon/favicon.ico">
+<script src="js/jquery-2.1.4.min.js"></script>
+<!--[if gte IE 9]>
+  <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+  <script src="js/html5shiv.min.js" type="text/javascript"></script>
+  <script src="js/respond.min.js" type="text/javascript"></script>
+  <script src="js/selectivizr-min.js" type="text/javascript"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+  <script>window.location.href='upgrade-browser.html';</script>
+<![endif]-->
+</head>
+
+<body class="user-select">
+<div class="container">
+  <div class="siteIcon"><img src="images/icon/icon.png" alt="" data-toggle="tooltip" data-placement="top" title="欢迎使用异清轩博客管理系统" draggable="false" /></div>
+  <form id="form-signin" method="post" autocomplete="off" class="form-signin">
+    <h2 class="form-signin-heading">登录</h2>
+    <label for="username" class="sr-only">用户名</label>
+    <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名" required autofocus autocomplete="off" maxlength="10">
+    <label for="password" class="sr-only">密码</label>
+    <input type="password" id="password" name="userpwd" class="form-control" placeholder="请输入密码" required autocomplete="off" maxlength="18">
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="signinSubmit">登录</button>
+  </form>
+  <div class="footer">
+    <p><a href="register.html" data-toggle="tooltip" data-placement="left" title="没有账号先注册吧！！！">注册 →</a></p>
+  </div>
+</div>
+<script src="js/bootstrap.min.js"></script> 
+<script>
+$('[data-toggle="tooltip"]').tooltip();
+window.oncontextmenu = function(){
+	//return false;
+};
+$('.siteIcon img').click(function(){
+	window.location.reload();
+});
+
+$(function(){
+
+	/**
+	 * 校验用户名是否存在
+	 */
+	$("#username").change(function(){
+		if($('#username').val() === ''){
+			$(this).text('用户名不能为空');
+		}
+		 $.ajax({
+		        type:"get",
+		        url:"http://localhost:8080/user/checkUsername",
+<<<<<<< HEAD
+		        xhrFields:{widthCredentials:true},
+=======
+		        xhrFields:{
+		        	widthCredentials:true
+		        },
+		        crossDomain:true,
+>>>>>>> 完善点击blog标题查看详细内容
+		        async:false,
+		        data:{
+		        	"username":$("#username").val()
+		        },
+		        success:function (result) {
+		            if (1==result.code){
+		                alert("用户名不存在，请注册");
+		                return false;
+		            }
+		        },
+		       
+		    })
+	});
+
+	/**
+	 * 登录
+	 * @param  {[type]} ){	if($('#username').val() [description]
+	 * @param  {[type]} success:function            (data)        {	            if (data.code [description]
+	 * @return {[type]}                             [description]
+	 */
+	$('#signinSubmit').click(function(){
+		if($('#username').val() === ''){
+			$(this).text('用户名不能为空');
+		}else if($('#password').val() === ''){
+			$(this).text('密码不能为空');
+		}
+		 $.ajax({
+		        type:"get",
+		        url:"http://localhost:8080/user/login",
+<<<<<<< HEAD
+		        xhrFields:{widthCredentials:true},
+=======
+		        xhrFields:{
+		        	widthCredentials:true
+		        },
+		        crossDomain:true,
+>>>>>>> 完善点击blog标题查看详细内容
+		        async:false,
+		        data:{
+		        	"username":$("#username").val(),
+		        	"password":$("#password").val()
+		        },
+		        success:function (result) {
+		            if (0 == result.code){
+		                alert("登录成功");
+		                window.location.href="main.html";
+		            }else {
+		                alert("登录失败，请核实用户名密码");
+		            }
+		        }
+		    })
+
+	});
+})
+</script>
+</body>
+</html>
