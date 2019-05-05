@@ -259,7 +259,6 @@ function reloadDom(){
         var contentDo = contentsList[i];
         var dom = "<tr data-id='"+contentDo.cid+"'><td>"+contentDo.cid+"</td>\n" +
         	"<td><img style='height: 40px;width: 40px' src='http://localhost:8080/upload/"+contentDo.titleUrl+"'></td>\n" +
-        	"<td><img style='height: 40px;width: 40px' src='http://148.70.185.3:8090/blogimage/"+contentDo.titleUrl+"'></td>\n" +
             "<td>"+contentDo.title+"</td>\n" +
             "<td>"+contentDo.status+"</td>\n" +
             "<td>"+contentDo.tags+"</td>\n" +
@@ -275,7 +274,7 @@ function reloadDom(){
          */
         $("#contentItem"+contentDo.cid).click(function () {
           var id=$(this).parents("tr").find("td:eq(0)").text();
-          window.location.href="update-article.html?id="+id;
+          window.location.href="update-article2.html?id="+id;
         })
 
     }
