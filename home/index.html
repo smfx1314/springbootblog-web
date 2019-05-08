@@ -13,7 +13,6 @@
 <link rel="apple-touch-icon-precomposed" href="images/icon/icon.jpg">
 <link rel="shortcut icon" href="images/icon/icon.jpg">
 <script src="js/jquery-2.1.4.min.js"></script>
-<script src="js/nprogress.js"></script>
 <script src="js/jquery.lazyload.min.js"></script>
 <!--[if gte IE 9]>
   <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -43,7 +42,7 @@
             </ul>
           </li>
         </ul>
-        <a data-toggle="modal" data-target="#loginModal" class="login" rel="nofollow">Hi,你好</a>&nbsp;&nbsp;<a href="../login.html" class="register" rel="nofollow">作者登录</a>&nbsp;&nbsp;<a href="" rel="nofollow">更多</a> </div>
+        <a data-toggle="modal" data-target="#loginModal" class="login" rel="nofollow">Hi,你好</a>&nbsp;&nbsp;<a href="../login.html" class="register" rel="nofollow">作者登录</a>&nbsp;&nbsp;<a href="" rel="nofollow"></a> </div>
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
         <h1 class="logo hvr-bounce-in"><a href="" title=""><img src="images/logo.jpg" alt=""></a></h1>
@@ -239,7 +238,7 @@ $(function(){
      */
     function to_page(pageNum) {
         $.ajax({
-            url:"http://localhost:8080/blog/getAllBlog",
+            url:"http://localhost:8081/blog/getAllBlog",
             type:"GET",
             xhrFields:{
             	widthCredentials:true
@@ -273,11 +272,11 @@ function reloadDom(){
         var contentDo = contentsList[i];
         var dom = "<article class='excerpt excerpt-1'>\n" +
         "    <span class='focus'>\n" +
-        "        <img class='thumb' src='http://148.70.185.3:8090/blogimage/"+contentDo.titleUrl+"'></span>\n" +
+        "        <img class='thumb' src='http://localhost:8080/image/"+contentDo.titleUrl+"'></span>\n" +
         "    <header>\n" +
-        "        <a class='cat' href='program'>简blog<i></i></a>\n" +
+        "        <a class='cat' href='program'>简blog</a>\n" +
         "        <h2>\n" +
-        "            <a id='blog-title"+contentDo.cid+"' value='"+contentDo.cid+"'>'"+contentDo.title+"'</a>\n" +
+        "            <a id='blog-title"+contentDo.cid+"' value='"+contentDo.cid+"'>"+contentDo.title+"</a>\n" +
         "        </h2>\n" +
         "    </header>\n" +
         "    <p class='meta'>\n" +

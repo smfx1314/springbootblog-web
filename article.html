@@ -209,7 +209,7 @@
  * 定义全局contents数组信息
  * 把返回的data数据都放入这个数据，然后在遍历数组
  */
-var contentsList = [];
+var blogDoList = [];
 
 //发送ajax请求，获取contents信息
 $(function(){
@@ -222,7 +222,7 @@ $(function(){
      */
     function to_page(pageNum) {
         $.ajax({
-            url:"http://localhost:8080/contents/getAllContents",
+            url:"http://localhost:8081/contents/getAllContents",
             type:"GET",
             xhrFields:{
               widthCredentials:true
@@ -233,7 +233,7 @@ $(function(){
             },
             success:function (result) {
                 if (0 == result.code){
-                   contentsList = result.data.list;
+                   blogDoList = result.data.list;
                    //执行列表函数，遍历数组
                    reloadDom();
 
@@ -255,16 +255,20 @@ $(function(){
  */
 function reloadDom(){
 	$("#container").empty();
-    for (var i=0; i<contentsList.length; i++) {
-        var contentDo = contentsList[i];
-        var dom = "<tr data-id='"+contentDo.cid+"'><td>"+contentDo.cid+"</td>\n" +
-        	"<td><img style='height: 40px;width: 40px' src='http://localhost:8080/upload/"+contentDo.titleUrl+"'></td>\n" +
-            "<td>"+contentDo.title+"</td>\n" +
-            "<td>"+contentDo.status+"</td>\n" +
-            "<td>"+contentDo.tags+"</td>\n" +
-            "<td>"+contentDo.allowComment+"</td>\n" +
-            "<td>"+contentDo.created+"</td>\n" +
-            "<td><input class='btn btn-primary btn-sm edit_btn' type='button' id='contentItem"+contentDo.cid+"' value='修改'><input class='tn btn-danger btn-sm delete_btn' type='button' value='删除'></td></tr>";
+    for (var i=0; i<blogDoList.length; i++) {
+        var blogDo = blogDoList[i];
+        //三目判断
+        var status = blogDo.status==1?'发布':'草稿';
+        var allowComment = blogDo.allowComment==1?'允许':'不允许';
+
+        var dom = "<tr data-id='"+blogDo.cid+"'><td>"+blogDo.cid+"</td>\n" +
+        	"<td><img style='height: 40px;width: 40px' src='http://localhost:8080/image/"+blogDo.titleUrl+"'></td>\n" +
+            "<td>"+blogDo.title+"</td>\n" +
+            "<td>"+status+"</td>\n" +
+            "<td>"+blogDo.tags+"</td>\n" +
+            "<td>"+allowComment+"</td>\n" +
+            "<td>"+blogDo.created+"</td>\n" +
+            "<td><input class='btn btn-primary btn-sm edit_btn' type='button' id='contentItem"+blogDo.cid+"' value='修改'><input class='tn btn-danger btn-sm delete_btn' type='button' value='删除'></td></tr>";
             //添加到tbody容器中
         $("#container").append($(dom));
         /**
@@ -272,7 +276,7 @@ function reloadDom(){
          * @param  {String} ) {                       window.location.href [description]
          * @return {[type]}   [description]
          */
-        $("#contentItem"+contentDo.cid).click(function () {
+        $("#contentItem"+blogDo.cid).click(function () {
           var id=$(this).parents("tr").find("td:eq(0)").text();
           window.location.href="update-article2.html?id="+id;
         })
@@ -362,7 +366,7 @@ $(document).on("click",".delete_btn",function () {
         if(confirm("确认删除吗？")){
             //确认，发送ajax请求删除
             $.ajax({
-                url:"http://localhost:8080/contents/deleteById",
+                url:"http://localhost:8081/contents/deleteById",
                 type:"get",
                 xhrFields:{
                   widthCredentials:true

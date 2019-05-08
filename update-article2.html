@@ -10,8 +10,8 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-<link rel="apple-touch-icon-precomposed" href="images/icon/icon.png">
-<link rel="shortcut icon" href="images/icon/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="images/icon/icon.jpg">
+<link rel="shortcut icon" href="images/icon/icon.jpg">
 <script src="js/jquery-2.1.4.min.js"></script>
 
 <!-- Markdown -->
@@ -34,7 +34,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-          <a class="navbar-brand" href="/">YlsatCMS</a> </div>
+          <a class="navbar-brand" href="/">简博客</a> </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="">消息 <span class="badge">1</span></a></li>
@@ -117,8 +117,8 @@
             <div class="add-article-box">
               <h2 class="add-article-box-title"><span>文章状态</span></h2>
               <div class="add-article-box-content">
-                <input type="radio" class="form-control" class="article-status0" id="article-status" autocomplete="off">发布
-                <input type="radio" class="form-control" class="article-status1" id="article-status" autocomplete="off">草稿
+                <input type="radio" class="form-control" value="1" name="status"  autocomplete="off">发布
+                <input type="radio" class="form-control" value="0" name="status"  autocomplete="off">草稿
               </div>
             </div>
             <div class="add-article-box">
@@ -127,31 +127,23 @@
 	            <input type="text" class="form-control" id="article-tags" autocomplete="off">
               </div>
             </div>
-            <div class="add-article-box">
-              <h2 class="add-article-box-title"><span>分类</span></h2>
-              <div class="add-article-box-content">
-              	<select id="article-categories" class="form-control" autocomplete="off">
-				  <option value ="Linux">Linux</option>
-				  <option value="Springmvc">Springmvc</option>
-				  <option value="springboot">springboot</option>
-				</select>
+           
+            <form id="uploadForm" class="add-article-form" method='post' enctype='multipart/form-data'>
+              <div class="add-article-box">
+                <h2 class="add-article-box-title"><span>标题图片</span></h2>
+                <div class="add-article-box-content">
+                  <input type="file" class="form-control" id="titel_image"  name="title_Url" autocomplete="off">
+                  <p id="title_Url_text" class="btn btn-lg btn-primary btn-block"></p>
+                </div>
               </div>
-            </div>
-            <form id="uploadForm" class="add-article-form" enctype="multipart/form-data">
-	            <div class="add-article-box">
-	              <h2 class="add-article-box-title"><span>标题图片</span></h2>
-	              <div class="add-article-box-content">
-	                <img style="height: 40px;width: 50px" id="article-image" src="">
-	                <p id="title_Url_text" class="btn btn-lg btn-primary btn-block"></p>
-	              </div>
-	            </div>
-        	</form>
+            </form>
+        	  
 
             <div class="add-article-box">
               <h2 class="add-article-box-title"><span>是否允许评论</span></h2>
               <div class="add-article-box-content">
-                <input type="radio" class="form-control" class="allow_comment0" id="allow_comment" autocomplete="off">允许
-				<input type="radio" class="form-control" class="allow_comment1" id="allow_comment" autocomplete="off">不允许
+                <input type="radio" class="form-control" value="1" name="allowcomment" autocomplete="off">允许
+                <input type="radio" class="form-control" value="0" name="allowcomment" autocomplete="off">不允许
               </div>
             </div>
             <div class="add-article-box">
@@ -183,9 +175,47 @@
         path : "./lib/"// Autoload modules mode, codemirror, marked... dependents libs path
       });
 
-
-
       /**
+       * 图片上传
+       * @param  {FormData} ){                                             var formData [description]
+       * @param  {[type]}   async:false      [description]
+       * @param  {[type]}   data:formData    [description]
+       * @param  {[type]}   contentType:     false         [description]
+       * @param  {[type]}   processData:     false         [description]
+       * @param  {[type]}   success:function (result)      {                                                     if(0 [description]
+       * @return {[type]}                    [description]
+       */
+    $("#titel_image").on("change",function(){
+      var formData = new FormData(document.getElementById("uploadForm"));
+      $.ajax({
+            type:"post",
+            url:"http://localhost:8081/contents/uploadImage",
+            xhrFields:{
+                widthCredentials:true
+              },
+            async:false,
+            data:formData,
+            /**
+              *必须false才会自动加上正确的Content-Type
+              */
+              contentType: false,
+              /*
+              *
+              * 必须false才会避开jQuery对 formdata 的默认处理
+              * XMLHttpRequest会对 formdata 进行正确的处理
+              */
+              processData: false,
+              success:function (result) {
+                  if(0 == result.code){
+                    $("#title_Url_text").html("图片上传成功");
+                  }else{
+                    $("#title_Url_text").html("图片上传失败");
+                  }
+              }
+        })
+    });
+
+   /**
    * 更新contents
    * 
    * 获取url中的id,然后根据id查询contents详情
@@ -200,16 +230,16 @@
        return(false);
     }
 
-  /**
+    /**
      * 根据id获取博客内容contents信息
      */
     //声明contents
-    var contentsDo;
+    var blogDo;
     $(document).ready(function(){
       
         //获取商品详情
         $.ajax({
-            url:"http://localhost:8080/contents/getById",
+            url:"http://localhost:8081/contents/getById",
             type:"GET",
             xhrFields:{widthCredentials:true},
             data:{
@@ -217,7 +247,7 @@
             },
             success:function (result) {
                 if (0 == result.code){
-                    contentsDo = result.data;
+                    blogDo = result.data;
                     reloadDom();
                 } else {
                     alert("注册失败");
@@ -227,25 +257,61 @@
     });
 
     function reloadDom(){
-        $("#article-id").attr("value",contentsDo.cid);
-            $("#article-title").attr("value",contentsDo.title);
-            $("#article-content").text(contentsDo.content);
-            $("#article-description").text(contentsDo.description);
-            $("#article-tags").attr("value",contentsDo.tags);
-           /*if (contentDo.status==0) {
-              $(".article-status0").attr("checked","checked");
-            }else if(contentDo.status==1){
-              $(".article-status1").attr("checked","checked");
+        $("#article-id").attr("value",blogDo.cid);
+        $("#article-title").attr("value",blogDo.title);
+        $("#article-content").text(blogDo.content);
+        $("#article-description").text(blogDo.description);
+        $("#article-tags").attr("value",blogDo.tags);
+        $("#article-image").attr("src","http://localhost:8080/image/"+blogDo.titleUrl);
+         //状态
+        if (blogDo.status==1) {
+          $("input[type='radio'][name='status']").get(0).checked=true;
+        }else{
+          $("input[type='radio'][name='status']").get(1).checked=true;
+        }
+        //是否允许评论
+        if (blogDo.allowComment==1) {
+          $("input[type='radio'][name='allowcomment']").get(0).checked=true;
+        }else{
+          $("input[type='radio'][name='allowcomment']").get(1).checked=true;
+        }
+        
+    }
+
+
+     /**
+     * 更新内容
+     */
+    $('#confimupdate').on("click",function(){
+      $.ajax({
+            type:"post",
+            url:"http://localhost:8081/contents/updateBlog",
+            xhrFields:{
+                widthCredentials:true
+              },
+            async:false,
+            data:{
+              "cid":$("#article-id").val(),
+              "title":$("#article-title").val(),
+              "content":editor.getMarkdown(),
+              "description":$("#article-description").val(),
+              "status":$("input[name='status']:checked").val(),
+              "tags":$("#article-tags").val(),
+              "allowcomment":$("input[name='allowcomment']:checked").val()
+            },
+            success:function (result) {
+                if (0==result.code){
+                    alert("更新成功");
+                    window.location.href="article.html";
+                }else {
+                    alert("发布失败");
+                }
+            },
+            error:function (result) {
+                alert("未知错误");
             }
-            
-            
-            $("#article-image").attr("src"，"http:8080/image/"+contentsDo.title_Url);
-            if (contentDo.allowComment==0) {
-              $(".allow_comment").attr("checked","checked");
-            }else if(contentDo.allowComment==1){
-              $(".allow_comment").attr("checked","checked");
-            }*/
-        };
+        })
+    })
   });
 </script>
 </body>

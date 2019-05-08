@@ -106,8 +106,8 @@
             <div class="add-article-box">
               <h2 class="add-article-box-title"><span>文章状态</span></h2>
               <div class="add-article-box-content">
-                <input type="radio" class="form-control" id="article-status" value="1" name="status" checked="checked" autocomplete="off">发布
-                <input type="radio" class="form-control" id="article-status" value="0" name="status" autocomplete="off">草稿
+                <input type="radio" class="form-control" value="1" name="status" autocomplete="off">发布
+                <input type="radio" class="form-control" value="0" name="status" autocomplete="off">草稿
               </div>
             </div>
             <div class="add-article-box">
@@ -117,17 +117,6 @@
 	                <span class="prompt-text">多个标签请用英文逗号,隔开</span> 
             	</div>
             </div>
-            <div class="add-article-box">
-              <h2 class="add-article-box-title"><span>分类</span></h2>
-              <div class="add-article-box-content">
-              	<select id="article-categories" name="categories" class="form-control" autocomplete="off">
-				  <option value ="Linux">Linux</option>
-				  <option value="Springmvc">Springmvc</option>
-				  <option value="springboot">springboot</option>
-				</select>
-              </div>
-            </div>
-            <form id="uploadForm" class="add-article-form" enctype="multipart/form-data">
             <form id="uploadForm" class="add-article-form" method='post' enctype='multipart/form-data'>
 	            <div class="add-article-box">
 	              <h2 class="add-article-box-title"><span>标题图片</span></h2>
@@ -136,13 +125,13 @@
 	                <p id="title_Url_text" class="btn btn-lg btn-primary btn-block"></p>
 	              </div>
 	            </div>
-        	</form>
+        	  </form>
 
             <div class="add-article-box">
               <h2 class="add-article-box-title"><span>是否允许评论</span></h2>
               <div class="add-article-box-content">
-                <input type="radio" class="form-control" id="allow_comment" value="1" name="allow_comment" checked="checked" autocomplete="off">允许
-				        <input type="radio" class="form-control" id="allow_comment" value="0" name="allow_comment" autocomplete="off">不允许
+                <input type="radio" class="form-control" value="1" name="allowcomment" checked="checked" autocomplete="off">允许
+				        <input type="radio" class="form-control" value="0" name="allowcomment" autocomplete="off">不允许
               </div>
             </div>
             <div class="add-article-box">
@@ -175,6 +164,8 @@
       flowChart: true,             // 开启流程图支持，默认关闭
       sequenceDiagram: true       // 开启时序/序列图支持，默认关闭,
     });
+
+
 		/**
 		 * 图片上传
 		 */
@@ -182,7 +173,7 @@
 			var formData = new FormData(document.getElementById("uploadForm"));
 			$.ajax({
 		        type:"post",
-		        url:"http://localhost:8080/contents/uploadImage",
+		        url:"http://localhost:8081/contents/uploadImage",
 		        xhrFields:{
 	              widthCredentials:true
 	            },
@@ -204,10 +195,7 @@
 	                }else{
 	                	$("#title_Url_text").html("图片上传失败");
 	                }
-	            },
-		        error:function (result) {
-		            alert("未知错误");
-		        }
+	            }
 		    })
 		});
 
@@ -218,7 +206,7 @@
 		$('#confimsubmit').on("click",function(){
 			$.ajax({
 		        type:"post",
-		        url:"http://localhost:8080/contents/insertBlog",
+		        url:"http://localhost:8081/contents/insertBlog",
 		        xhrFields:{
 	              widthCredentials:true
 	            },
@@ -227,17 +215,16 @@
 		        	"title":$("#article-title").val(),
 		        	"content":editor.getMarkdown(),
 		        	"description":$("#article-description").val(),
-		        	"status":$("#article-status").val(),
+		        	"status":$("input[name='status']:checked").val(),
 		        	"tags":$("#article-tags").val(),
-		        	"categories":$("#article-categories").val()
+              "allowcomment":$("input[name='allowcomment']:checked").val()
 		        },
 		        success:function (result) {
 		            if (0==result.code){
 		                alert("发布成功");
-                    window.location.href="article.html";
+                    window.location.href="main.html";
 		            }else {
 		                alert("发布失败");
-		                alert("请确保已经登录");
 		            }
 		        },
 		        error:function (result) {

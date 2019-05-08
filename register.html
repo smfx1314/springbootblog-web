@@ -75,7 +75,7 @@ $("#username").change(function(){
 	}
 	 $.ajax({
 	        type:"get",
-	        url:"http://localhost:8080/user/checkUsername",
+	        url:"http://localhost:8081/user/checkUsername",
 	        xhrFields:{
 	        	widthCredentials:true
 	        },
@@ -108,7 +108,7 @@ $('#signinSubmit').click(function(){
 	}*/
 	 $.ajax({
 	        type:"post",
-	        url:"http://localhost:8080/user/insertUser",
+	        url:"http://localhost:8081/user/insertUser",
 	        xhrFields:{
 	        	widthCredentials:true
 	        },
