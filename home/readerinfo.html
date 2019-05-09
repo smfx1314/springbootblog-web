@@ -5,7 +5,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>简博客-友情链接</title>
+<title>简博客-留言板</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/nprogress.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -13,7 +13,6 @@
 <link rel="apple-touch-icon-precomposed" href="images/icon/icon.jpg">
 <link rel="shortcut icon" href="images/icon/icon.jpg">
 <script src="js/jquery-2.1.4.min.js"></script>
-<script src="js/nprogress.js"></script>
 <script src="js/jquery.lazyload.min.js"></script>
 <!--[if gte IE 9]>
   <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -60,13 +59,25 @@
 <section class="container container-page">
   <div class="content">
     <header class="article-header">
-      <h1 class="article-title">友情链接</h1>
+      <h1 class="article-title">留言板</h1>
     </header>
-    <ul class="plinks">
-      <li><a href="https://www.baidu.com/" title="" target="_blank" rel="nofollow"><img src="https://www.baidu.com/favicon.ico" alt="">百度</a></li>
-      <li><a href="https://www.cnblogs.com/" title="" target="_blank" rel="nofollow"><img src="https://common.cnblogs.com/favicon.ico" alt="">博客园</a></li>
-      <li><a href="http://www.ityouknow.com/" target="_blank" rel="nofollow"><img src="http://www.ityouknow.com/assets/images/favicon.ico" alt="">纯洁的微笑</a></li>
-    </ul>
+    <div class="form-group">
+      <label for="exampleInputEmail1">昵称</label>
+      <input type="text" class="form-control" id="name" placeholder="怎么称呼">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">主题</label>
+      <input type="text" class="form-control" id="title" placeholder="主题">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">内容</label>
+      <textarea class="form-control" id="content" placeholder="开始留言"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email</label>
+      <input type="email" class="form-control" id="email" placeholder="你的邮箱">
+    </div>
+    <button type="button" id="submit" class="btn btn-success">提交</button>
   </div>
 </section>
 <footer class="footer">
@@ -77,11 +88,11 @@
 </footer>
 <!--微信二维码模态框-->
 <div class="modal fade user-select" id="WeChat" tabindex="-1" role="dialog" aria-labelledby="WeChatModalLabel">
-  <div class="modal-dialog" role="document" style="margin-top:120px;width:280px;">
+  <div class="modal-dialog" role="document" style="margin-top:120px;max-width:280px;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="WeChatModalLabel" style="cursor:default;">微信扫一扫</h4>
+        <h4 class="modal-title" id="WeChatModalLabel" style="cursor:default;">微信扫一扫(备注)</h4>
       </div>
       <div class="modal-body" style="text-align:center"> <img src="images/weixin.jpg" alt="" style="cursor:pointer"/> </div>
     </div>
@@ -90,5 +101,55 @@
 <script src="js/bootstrap.min.js"></script> 
 <script src="js/jquery.ias.js"></script> 
 <script src="js/scripts.js"></script>
+
+
+<script type="text/javascript">
+  $(function(){
+    $("#submit").on("click",function(){
+      var name = $("#name").val();
+      var title = $("#title").val();
+      var content = $("#content").val();
+      var email = $("#email").val();
+      if (name=="") {
+        alert("怎么称呼？")
+        return false;
+      }
+      if (title=="") {
+        alert("主题记得填一下")
+        return false;
+      }
+      if (content=="") {
+        alert("怎么不写点内容呢？")
+        return false;
+      }
+      if (email=="") {
+        alert("留个邮箱联系")
+        return false;
+      }
+      $.ajax({
+            url:"http://localhost:8081/front/insertMsg",
+            type:"POST",
+            xhrFields:{
+              widthCredentials:true
+            },
+            data:{
+              "name": name,
+              "title": title,
+              "content": content,
+              "email": email
+            },
+            success:function (result) {
+                if (0 == result.code){
+                  alert("留言成功")
+                  window.location.href="readerinfo.html";      
+                }else{
+                  alert("失败，重新试试")
+                }
+            }
+
+        });
+    })
+  })
+</script>
 </body>
 </html>

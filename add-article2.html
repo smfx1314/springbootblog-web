@@ -57,7 +57,7 @@
         <li class="active"><a href="article.html">文章</a></li>
         <li><a href="notice.html">公告</a></li>
         <li><a href="comment.html">评论</a></li>
-        <li><a data-toggle="tooltip" data-placement="top" title="网站暂无留言功能">留言</a></li>
+        <li><a href="readermsg.html">留言</a></li>
       </ul>
       <ul class="nav nav-sidebar">
         <li><a href="category.html">栏目</a></li>
@@ -121,7 +121,7 @@
 	            <div class="add-article-box">
 	              <h2 class="add-article-box-title"><span>标题图片</span></h2>
 	              <div class="add-article-box-content">
-	                <input type="file" class="form-control" id="titel_image"  name="title_Url" autocomplete="off">
+	                <input type="file" class="form-control" id="titel_image" name="title_Url" autocomplete="off">
 	                <p id="title_Url_text" class="btn btn-lg btn-primary btn-block"></p>
 	              </div>
 	            </div>
@@ -170,6 +170,15 @@
 		 * 图片上传
 		 */
 		$("#titel_image").on("change",function(){
+/*      var photo=document.getElementById("titel_image").value;
+      if(""==photo){ 
+           alert("请选择上传图片");
+           return false;    
+      }else  if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(photo)) {    
+         alert("图片类型必须是.gif,jpeg,jpg,png中的一种");      
+         return false;    
+      }*/
+
 			var formData = new FormData(document.getElementById("uploadForm"));
 			$.ajax({
 		        type:"post",
@@ -178,7 +187,7 @@
 	              widthCredentials:true
 	            },
 		        async:false,
-		        data:formData,
+		        data:formData,// 序列化表单值
 		        /**
 	            *必须false才会自动加上正确的Content-Type
 	            */
@@ -204,6 +213,32 @@
 		 * 发布内容
 		 */
 		$('#confimsubmit').on("click",function(){
+      var title = $("#article-title").val();
+      var content = editor.getMarkdown();
+      var description = $("#article-description").val();
+      var status = $("input[name='status']:checked").val();
+      var tags = $("#article-tags").val();
+      var allowcomment = $("input[name='allowcomment']:checked").val();
+      if (title=="") {
+        alert("标题不能为空")
+        return false;
+      }
+      if (content=="") {
+        alert("请完善博客内容")
+        return false;
+      }
+      if (description=="") {
+          alert("请完善描述")
+        return false;
+      }
+      if (status == null) {
+        alert("请选择博客状态")
+        return false;
+      }
+      if (allowcomment==null) {
+        alert("是否允许评论？")
+        return false;
+      }
 			$.ajax({
 		        type:"post",
 		        url:"http://localhost:8081/contents/insertBlog",
@@ -212,17 +247,17 @@
 	            },
 		        async:false,
 		        data:{
-		        	"title":$("#article-title").val(),
-		        	"content":editor.getMarkdown(),
-		        	"description":$("#article-description").val(),
-		        	"status":$("input[name='status']:checked").val(),
-		        	"tags":$("#article-tags").val(),
-              "allowcomment":$("input[name='allowcomment']:checked").val()
+		        	"title":title,
+		        	"content":content,
+		        	"description":description,
+		        	"status":status,
+		        	"tags":tags,
+              "allowcomment":allowcomment
 		        },
 		        success:function (result) {
 		            if (0==result.code){
 		                alert("发布成功");
-                    window.location.href="main.html";
+                    window.location.href="article.html";
 		            }else {
 		                alert("发布失败");
 		            }

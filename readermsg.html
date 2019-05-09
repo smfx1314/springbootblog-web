@@ -6,7 +6,7 @@
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>文章 - 简博客管理系统</title>
+<title>留言 - 简博客管理系统</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -76,21 +76,16 @@
     </aside>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
       <form action="/Article/checkAll" method="post" >
-        <h1 class="page-header">操作</h1>
-        <ol class="breadcrumb">
-          <li><a href="add-article2.html" class="tn btn-primary btn-sm">增加文章</a></li>
-        </ol>
-        <h4 class="page-header">博客管理</h4>
+        <h4 class="page-header">留言管理</h4>
         <div class="table-responsive">
           <table class="table table-striped table-hover">
             <thead>
               <tr>
                 <th><span class="glyphicon glyphicon-th-large"></span> <span class="visible-lg">序号</span></th>
-                <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">图片</span></th>
+                <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">姓名</span></th>
                 <th><span class="glyphicon glyphicon-file"></span> <span class="visible-lg">标题</span></th>
-                <th><span class="glyphicon glyphicon-list"></span> <span class="visible-lg">状态</span></th>
-                <th class="hidden-sm"><span class="glyphicon glyphicon-tag"></span> <span class="visible-lg">标签</span></th>
-                <th class="hidden-sm"><span class="glyphicon glyphicon-comment"></span> <span class="visible-lg">是否允许评论</span></th>
+                <th><span class="glyphicon glyphicon-list"></span> <span class="visible-lg">内容</span></th>
+                <th class="hidden-sm"><span class="glyphicon glyphicon-tag"></span> <span class="visible-lg">邮箱</span></th>
                 <th><span class="glyphicon glyphicon-time"></span> <span class="visible-lg">日期</span></th>
                 <th><span class="glyphicon glyphicon-pencil"></span> <span class="visible-lg">操作</span></th>
               </tr>
@@ -163,7 +158,7 @@
  * 定义全局contents数组信息
  * 把返回的data数据都放入这个数据，然后在遍历数组
  */
-var blogDoList = [];
+var readermsgList = [];
 
 //发送ajax请求，获取contents信息
 $(function(){
@@ -176,7 +171,7 @@ $(function(){
      */
     function to_page(pageNum) {
         $.ajax({
-            url:"http://localhost:8081/contents/getAllContents",
+            url:"http://localhost:8081/admin/getAllMsg",
             type:"GET",
             xhrFields:{
               widthCredentials:true
@@ -187,7 +182,7 @@ $(function(){
             },
             success:function (result) {
                 if (0 == result.code){
-                   blogDoList = result.data.list;
+                   readermsgList = result.data.list;
                    //执行列表函数，遍历数组
                    reloadDom();
 
@@ -209,20 +204,15 @@ $(function(){
  */
 function reloadDom(){
 	$("#container").empty();
-    for (var i=0; i<blogDoList.length; i++) {
-        var blogDo = blogDoList[i];
-        //三目判断
-        var status = blogDo.status==1?'发布':'草稿';
-        var allowComment = blogDo.allowComment==1?'允许':'不允许';
-
-        var dom = "<tr data-id='"+blogDo.cid+"'><td>"+blogDo.cid+"</td>\n" +
-        	"<td><img style='height: 40px;width: 40px' src='http://localhost:8080/image/"+blogDo.titleUrl+"'></td>\n" +
-            "<td>"+blogDo.title+"</td>\n" +
-            "<td>"+status+"</td>\n" +
-            "<td>"+blogDo.tags+"</td>\n" +
-            "<td>"+allowComment+"</td>\n" +
-            "<td>"+blogDo.created+"</td>\n" +
-            "<td><input class='btn btn-primary btn-sm edit_btn' type='button' id='contentItem"+blogDo.cid+"' value='修改'><input class='tn btn-danger btn-sm delete_btn' type='button' value='删除'></td></tr>";
+    for (var i=0; i<readermsgList.length; i++) {
+        var readermsDo = readermsgList[i];
+        var dom = "<tr data-id='"+readermsDo.id+"'><td>"+readermsDo.id+"</td>\n" +
+        	"<td>"+readermsDo.name+"</td>\n" +
+            "<td>"+readermsDo.title+"</td>\n" +
+            "<td>"+readermsDo.content+"</td>\n" +
+            "<td>"+readermsDo.email+"</td>\n" +
+            "<td>"+readermsDo.created+"</td>\n" +
+            "<td><input class='btn btn-primary btn-sm edit_btn' type='button' id='contentItem"+readermsDo.id+"' value='详情'></td></tr>";
             //添加到tbody容器中
         $("#container").append($(dom));
         /**
@@ -230,9 +220,9 @@ function reloadDom(){
          * @param  {String} ) {                       window.location.href [description]
          * @return {[type]}   [description]
          */
-        $("#contentItem"+blogDo.cid).click(function () {
+        $("#contentItem"+readermsDo.id).click(function () {
           var id=$(this).parents("tr").find("td:eq(0)").text();
-          window.location.href="update-article2.html?id="+id;
+          window.location.href="readermsgInfo.html?id="+id;
         })
 
     }
@@ -309,34 +299,6 @@ function build_page_nav(result) {
 }
 
 
-/**
- * 删除
- * @param  {[type]} ) {                                   var username [description]
- * @return {[type]}   [description]
- */
-$(document).on("click",".delete_btn",function () {
-        //1.弹出确认删除对话框
-        var id=$(this).parents("tr").find("td:eq(0)").text();
-        if(confirm("确认删除吗？")){
-            //确认，发送ajax请求删除
-            $.ajax({
-                url:"http://localhost:8081/contents/deleteById",
-                type:"get",
-                xhrFields:{
-                  widthCredentials:true
-                },
-                data:{
-                	"id": id
-                },
-                success:function (result) {
-                    if (0 == result.code){
-                        alert("删除成功");
-                    }
-                    to_page(1);
-                }
-            })
-        }
-    })
 });
 </script>
 </body>
