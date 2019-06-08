@@ -88,7 +88,6 @@
     </aside>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
       <div class="row">
-        <form class="add-article-form">
           <div class="col-md-9">
             <h1 class="page-header">文章修改</h1>
             <!-- id隐藏 -->
@@ -133,7 +132,7 @@
                 <h2 class="add-article-box-title"><span>标题图片</span></h2>
                 <div class="add-article-box-content">
                   <input type="file" class="form-control" id="titel_image"  name="title_Url" autocomplete="off">
-                  <p id="title_Url_text" class="btn btn-lg btn-primary btn-block"></p>
+                   <p id="title_Url_text" class="btn btn-lg btn-primary btn-block"></p>
                 </div>
               </div>
             </form>
@@ -152,7 +151,6 @@
               </div>
             </div>
           </div>
-        </form>
       </div>
     </div>
 </section>
@@ -257,12 +255,12 @@
     });
 
     function reloadDom(){
-        $("#article-id").attr("value",blogDo.cid);
+        $("#article-id").attr("value",blogDo.bid);
         $("#article-title").attr("value",blogDo.title);
         $("#article-content").text(blogDo.content);
         $("#article-description").text(blogDo.description);
         $("#article-tags").attr("value",blogDo.tags);
-        $("#article-image").attr("src","http://localhost:8080/image/"+blogDo.titleUrl);
+       // $("#article-image").attr("src","http://localhost:8080/image/"+blogDo.titleUrl);
          //状态
         if (blogDo.status==1) {
           $("input[type='radio'][name='status']").get(0).checked=true;
@@ -291,7 +289,7 @@
               },
             async:false,
             data:{
-              "cid":$("#article-id").val(),
+              "bid":$("#article-id").val(),
               "title":$("#article-title").val(),
               "content":editor.getMarkdown(),
               "description":$("#article-description").val(),

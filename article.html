@@ -181,7 +181,6 @@ $(function(){
             xhrFields:{
               widthCredentials:true
             },
-            crossDomain:true,
             data:{
             	"pageNum": pageNum
             },
@@ -215,14 +214,14 @@ function reloadDom(){
         var status = blogDo.status==1?'发布':'草稿';
         var allowComment = blogDo.allowComment==1?'允许':'不允许';
 
-        var dom = "<tr data-id='"+blogDo.cid+"'><td>"+blogDo.cid+"</td>\n" +
+        var dom = "<tr data-id='"+blogDo.bid+"'><td>"+blogDo.bid+"</td>\n" +
         	"<td><img style='height: 40px;width: 40px' src='http://localhost:8080/image/"+blogDo.titleUrl+"'></td>\n" +
             "<td>"+blogDo.title+"</td>\n" +
             "<td>"+status+"</td>\n" +
             "<td>"+blogDo.tags+"</td>\n" +
             "<td>"+allowComment+"</td>\n" +
             "<td>"+blogDo.created+"</td>\n" +
-            "<td><input class='btn btn-primary btn-sm edit_btn' type='button' id='contentItem"+blogDo.cid+"' value='修改'><input class='tn btn-danger btn-sm delete_btn' type='button' value='删除'></td></tr>";
+            "<td><input class='btn btn-primary btn-sm edit_btn' type='button' id='contentItem"+blogDo.bid+"' value='修改'><input class='tn btn-danger btn-sm delete_btn' type='button' value='删除'></td></tr>";
             //添加到tbody容器中
         $("#container").append($(dom));
         /**
@@ -230,7 +229,7 @@ function reloadDom(){
          * @param  {String} ) {                       window.location.href [description]
          * @return {[type]}   [description]
          */
-        $("#contentItem"+blogDo.cid).click(function () {
+        $("#contentItem"+blogDo.bid).click(function () {
           var id=$(this).parents("tr").find("td:eq(0)").text();
           window.location.href="update-article2.html?id="+id;
         })

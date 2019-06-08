@@ -61,10 +61,10 @@ $(function(){
 		 $.ajax({
 		        type:"get",
 		        url:"http://localhost:8081/user/checkUsername",
-		        /*xhrFields:{
-		        	widthCredentials:true
-		        },*/
-		        //crossDomain: true,
+		        xhrFields: {
+				    withCredentials: true
+				},
+				crossDomain: true,
 		        async:false,
 		        data:{
 		        	"username":$("#username").val()
@@ -87,17 +87,16 @@ $(function(){
 	 */
 	$('#signinSubmit').click(function(){
 		if($('#username').val() === ''){
-			$(this).text('用户名不能为空');
+			alert('用户名不能为空');
 		}else if($('#password').val() === ''){
-			$(this).text('密码不能为空');
+			alert('密码不能为空');
 		}
 		 $.ajax({
 		        type:"get",
 		        url:"http://localhost:8081/user/login",
-		        xhrFields:{
-		        	widthCredentials:true
+		        xhrFields: {
+		            withCredentials: true
 		        },
-		        crossDomain:true,
 		        async:false,
 		        data:{
 		        	"username":$("#username").val(),

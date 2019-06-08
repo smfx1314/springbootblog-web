@@ -183,9 +183,9 @@
 			$.ajax({
 		        type:"post",
 		        url:"http://localhost:8081/contents/uploadImage",
-		        xhrFields:{
-	              widthCredentials:true
-	            },
+		        xhrFields: {
+              withCredentials: true
+            },
 		        async:false,
 		        data:formData,// 序列化表单值
 		        /**

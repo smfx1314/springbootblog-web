@@ -275,7 +275,7 @@ $(function(){
 	        "    <header>\n" +
 	        "        <a class='cat' href='program'>简blog</a>\n" +
 	        "        <h2>\n" +
-	        "            <a id='blog-title"+contentDo.cid+"' value='"+contentDo.cid+"'>"+contentDo.title+"</a>\n" +
+	        "            <a id='blog-title"+contentDo.bid+"' value='"+contentDo.bid+"'>"+contentDo.title+"</a>\n" +
 	        "        </h2>\n" +
 	        "    </header>\n" +
 	        "    <p class='meta'>\n" +
@@ -291,7 +291,7 @@ $(function(){
 	         * @param  {String} ) {                       window.location.href [description]
 	         * @return {[type]}   [description]
 	         */
-	        $('#blog-title'+contentDo.cid).on("click",function(){
+	        $('#blog-title'+contentDo.bid).on("click",function(){
 	        	var id=$(this).attr("value");
 		        window.location.href="blog-article.html?id="+id;
 	        })
