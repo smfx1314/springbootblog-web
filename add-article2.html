@@ -214,6 +214,7 @@
 		 */
 		$('#confimsubmit').on("click",function(){
       var title = $("#article-title").val();
+      //获取Markdown中的内容
       var content = editor.getMarkdown();
       var description = $("#article-description").val();
       var status = $("input[name='status']:checked").val();
@@ -265,7 +266,7 @@
 		        error:function (result) {
 		            alert("未知错误");
 		        }
-		    })
+		  })
 		})
 	})
 </script>
