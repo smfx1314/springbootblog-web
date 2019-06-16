@@ -260,11 +260,11 @@ $(function(){
     }
 
 
-/**
- * contents列表浏览
- * 遍历数组，append到tbody中
- * 之后给每行添加id，方便获取每个content的详情信息
- */
+	/**
+	 * contents列表浏览
+	 * 遍历数组，append到tbody中
+	 * 之后给每行添加id，方便获取每个content的详情信息
+	 */
 	function reloadDom(){
 	    $("#container").empty();
 	    for (var i=0; i<contentsList.length; i++) {
@@ -385,6 +385,25 @@ $(function(){
 
         });
     })
+
+	/**
+	 * 网站公告
+	 */
+   $.ajax({
+        url:"http://localhost:8081/blog/selectNotice",
+        type:"GET",
+        xhrFields:{
+        	widthCredentials:true
+        },
+        success:function (result) {
+            if (0 == result.code){
+               content = result.data.content;
+               $("#notice").empty();
+               $("#notice").append(content);
+            }
+        }
+
+    });
 });
 </script>
 </body>

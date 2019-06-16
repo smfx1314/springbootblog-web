@@ -62,10 +62,7 @@
     <header class="article-header">
       <h1 class="article-title">标签云</h1>
     </header>
-    <ul class="plinks ptags">
-      <li><a href="" title="" target="_blank">这个是标签 <span class="badge">42</span></a></li>
-      <li><a href="" title="" target="_blank">这个是标签 <span class="badge">42</span></a></li>
-      <li><a href="" title="" target="_blank">这个是标签 <span class="badge">42</span></a></li>
+    <ul class="plinks ptags" id="container">
       <li><a href="" title="" target="_blank">这个是标签 <span class="badge">42</span></a></li>
     </ul>
   </div>
@@ -88,34 +85,61 @@
     </div>
   </div>
 </div>
-<!--该功能正在日以继夜的开发中-->
-<div class="modal fade user-select" id="areDeveloping" tabindex="-1" role="dialog" aria-labelledby="areDevelopingModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="areDevelopingModalLabel" style="cursor:default;">该功能正在日以继夜的开发中…</h4>
-      </div>
-      <div class="modal-body"> <img src="images/baoman/baoman_01.gif" alt="深思熟虑" />
-        <p style="padding:15px 15px 15px 100px; position:absolute; top:15px; cursor:default;">很抱歉，程序猿正在日以继夜的开发此功能，本程序将会在以后的版本中持续完善！</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">朕已阅</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="rightClickMenu">
-  <ul class="list-group rightClickMenuList">
-    <li class="list-group-item disabled">欢迎访问异清轩博客</li>
-    <li class="list-group-item"><span>IP：</span>172.16.10.129</li>
-    <li class="list-group-item"><span>地址：</span>河南省郑州市</li>
-    <li class="list-group-item"><span>系统：</span>Windows10 </li>
-    <li class="list-group-item"><span>浏览器：</span>Chrome47</li>
-  </ul>
-</div>
 <script src="js/bootstrap.min.js"></script> 
 <script src="js/jquery.ias.js"></script> 
 <script src="js/scripts.js"></script>
+
+
+<script type="text/javascript">
+/**
+ * 定义全局contents数组信息
+ * 把返回的data数据都放入这个数据，然后在遍历数组
+ */
+var tagsList = [];
+
+  $(function(){
+    $.ajax({
+            url:"http://localhost:8081/blog/selectAllTag",
+            type:"GET",
+            xhrFields:{
+              widthCredentials:true
+            },
+            crossDomain:true,
+            success:function (result) {
+                if (0 == result.code){
+                  tagsList = result.data;
+                   //执行列表函数，遍历数组
+                   reloadDom();
+                }
+            }
+        });
+
+
+  /**
+   * contents列表浏览
+   * 遍历数组，append到tbody中
+   * 之后给每行添加id，方便获取每个content的详情信息
+   */
+  function reloadDom(){
+    $("#container").empty();
+      for (var i=0; i<tagsList.length; i++) {
+          var blogDo = tagsList[i];
+          var dom = "<li><a target='_blank' id='tags'><span class='glyphicon glyphicon-tags btn btn-primary'></span> "+blogDo.tags+"</a></li>";
+              //添加到tbody容器中
+          $("#container").append($(dom));
+          /**
+           * 给修改绑定一个点击事件，点击并传递id参数，跳转至content修改页面并根据id查询，之后获取id在在修改
+           * @param  {String} ) {                       window.location.href [description]
+           * @return {[type]}   [description]
+           */
+/*          $("#contentItem"+readermsDo.id).click(function () {
+            var id=$(this).parents("tr").find("td:eq(0)").text();
+            window.location.href="readermsgInfo.html?id="+id;
+          })*/
+
+      }
+  }
+  })
+</script>
 </body>
 </html>
