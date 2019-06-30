@@ -152,17 +152,23 @@
 	$(function(){
     /**
      * markdown实例化
-     * @type {[type]}
+     * @type {[type]}id="test-editormd"
      */
     var editor = editormd("editormd", {
       height : 500,
+      placeholder : "欢迎使用博客",
       path : "./lib/", // Autoload modules mode, codemirror, marked... dependents libs path
       saveHTMLToTextarea : true,
+      emoji : true,
   	  previewTheme : "dark",       //下面这一行将使用dark主题
       watch : true,                // 开启实时预览
       tex: true,                   // 开启科学公式TeX语言支持，默认关闭
       flowChart: true,             // 开启流程图支持，默认关闭
-      sequenceDiagram: true       // 开启时序/序列图支持，默认关闭,
+      sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+      /* 上传图片配置 */
+      imageUpload : true,
+      imageFormats : [ "jpg", "jpeg", "gif", "png", "bmp", "webp" ],
+      imageUploadURL : "${proPath }/base/blog/upFile", //注意你后端的上传图片服务地址
     });
 
 
@@ -209,10 +215,11 @@
 		});
 
 
-		/**
-		 * 发布内容
-		 */
-		$('#confimsubmit').on("click",function(){
+	/**
+	 * 发布内容
+	 */
+	$('#confimsubmit').on("click",function(){
+
       var title = $("#article-title").val();
       //获取Markdown中的内容
       var content = editor.getMarkdown();
@@ -240,33 +247,39 @@
         alert("是否允许评论？")
         return false;
       }
-			$.ajax({
-		        type:"post",
-		        url:"http://localhost:8081/contents/insertBlog",
-		        xhrFields:{
-	              widthCredentials:true
-	            },
-		        async:false,
-		        data:{
-		        	"title":title,
-		        	"content":content,
-		        	"description":description,
-		        	"status":status,
-		        	"tags":tags,
-              "allowcomment":allowcomment
-		        },
-		        success:function (result) {
-		            if (0==result.code){
-		                alert("发布成功");
+		$.ajax({
+	        type:"post",
+	        url:"http://localhost:8081/contents/insertBlog",
+	        xhrFields:{
+              widthCredentials:true
+            },
+	        async:false,
+	        data:{
+	        	"title":title,
+	        	"content":content,
+	        	"description":description,
+	        	"status":status,
+	        	"tags":tags,
+                "allowcomment":allowcomment
+	        },
+	        success:function (result) {
+	            if (0==result.code){
+	                alert("发布成功");
                     window.location.href="article.html";
-		            }else {
-		                alert("发布失败");
-		            }
-		        },
-		        error:function (result) {
-		            alert("未知错误");
-		        }
+	            }else {
+	                alert("发布失败");
+	            }
+	        },
+	        error:function (result) {
+	            alert("未知错误");
+	        }
 		  })
+		 //获取表单提交按钮
+	     var btnSubmit = document.getElementById("confimsubmit");
+	     //将表单提交按钮设置为不可用，这样就可以避免用户再次点击提交按钮
+	     btnSubmit.disabled= "disabled";
+	     //返回true让表单可以正常提交
+	     return true;
 		})
 	})
 </script>

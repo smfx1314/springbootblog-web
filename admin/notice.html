@@ -61,10 +61,10 @@
         <li><a href="main.html">报告</a></li>
       </ul>
       <ul class="nav nav-sidebar">
-        <li><a href="article.html">文章</a></li>
-        <li class="active"><a href="notice.html">公告</a></li>
-        <li><a href="comment.html">评论</a></li>
-        <li><a href="readermsg.html">留言</a></li>
+        <li><a href="http://localhost:63342/springboot-blogweb/article.html">文章</a></li>
+        <li class="http://localhost:63342/springboot-blogweb/active"><a href="notice.html">公告</a></li>
+        <li><a href="http://localhost:63342/springboot-blogweb/comment.html">评论</a></li>
+        <li><a href="http://localhost:63342/springboot-blogweb/readermsg.html">留言</a></li>
       </ul>
       <ul class="nav nav-sidebar">
         <li><a href="category.html">栏目</a></li>
@@ -81,8 +81,8 @@
             <li><a href="user-group.html">管理用户组</a></li>
             <li><a href="manage-user.html">管理用户</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="loginlog.html">管理登录日志</a></li>
-            <li><a href="optionlog.html">管理操作日志</a></li>
+            <li><a href="http://localhost:63342/springboot-blogweb/loginlog.html">管理登录日志</a></li>
+            <li><a href="http://localhost:63342/springboot-blogweb/optionlog.html">管理操作日志</a></li>
           </ul>
         </li>
         <li><a class="dropdown-toggle" id="settingMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置</a>
@@ -101,7 +101,7 @@
       <form action="/Article/checkAll" method="post" >
         <h1 class="page-header">操作</h1>
         <ol class="breadcrumb">
-          <li><a href="add-notice.html" class="tn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span>增加公告</a></li>
+          <li><a href="http://localhost:63342/springboot-blogweb/add-notice.html" class="tn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span>增加公告</a></li>
         </ol>
         <div class="table-responsive">
           <table class="table table-striped table-hover">
@@ -173,30 +173,6 @@ $(function(){
          
       }
   }
-
-
-  //是否确认删除
-  $(function(){   
-  	$("#main table tbody tr td a").click(function(){
-  		var name = $(this);
-  		var id = name.attr("rel"); //对应id  
-  		if (event.srcElement.outerText == "删除") 
-  		{
-  			if(window.confirm("此操作不可逆，是否确认？"))
-  			{
-  				$.ajax({
-  					type: "POST",
-  					url: "/Article/delete",
-  					data: "id=" + id,
-  					cache: false, //不缓存此页面   
-  					success: function (data) {
-  						window.location.reload();
-  					}
-  				});
-  			};
-  		};
-  	});  
-  }) 
 });
 </script>
 </body>

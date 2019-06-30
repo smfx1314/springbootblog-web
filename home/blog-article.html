@@ -77,8 +77,8 @@
         </div>
       </header>
       <article class="article-content">
-        <div id="test-editormd-view2">
-            <textarea id="blog_content"></textarea>          
+        <div id="test-editormd-view">
+            <textarea id="blog_content" style="display:none"></textarea>          
         </div>
       </article>
       <div class="article-tags">标签：<a href="#" rel="tag" id="blog_tags"> </a></div>
@@ -133,7 +133,7 @@
 </section>
 <footer class="footer">
   <div class="container">
-    <p>&copy; 2016 <a href="">ylsat.com</a> &nbsp; <a href="#" target="_blank" rel="nofollow">豫ICP备20151109-1</a> &nbsp; &nbsp; <a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+    <p>&copy; 2016 <a href="">简blog</a> &nbsp; <a href="#" target="_blank" rel="nofollow">豫ICP备20151109-1</a> &nbsp; &nbsp; <a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
   </div>
   <div id="gotop"><a class="gotop"></a></div>
 </footer>
@@ -241,10 +241,11 @@ $(function(){
        * 解析Markdown
        * @type {String}
        */
-      var testEditormdView2 = editormd.markdownToHTML("test-editormd-view2", {
+      var testEditormdView = editormd.markdownToHTML("test-editormd-view", {
             markdown        : contentsDo.content,// $("#append-test").text(),
             htmlDecode      : "style,script,iframe",  // you can filter tags decode
             tocm            : true,    // Using [TOCM]
+            markdownSourceCode : false, //// 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
             emoji           : true,
             taskList        : true,
             tex             : true,  // 默认不解析

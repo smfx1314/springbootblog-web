@@ -106,6 +106,7 @@
 <script type="text/javascript">
   $(function(){
     $("#submit").on("click",function(){
+
       var name = $("#name").val();
       var title = $("#title").val();
       var content = $("#content").val();
@@ -126,6 +127,7 @@
         alert("留个邮箱联系")
         return false;
       }
+
       $.ajax({
             url:"http://localhost:8081/front/insertMsg",
             type:"POST",
@@ -148,6 +150,12 @@
             }
 
         });
+              //获取表单提交按钮
+     var btnSubmit = document.getElementById("submit");
+     //将表单提交按钮设置为不可用，这样就可以避免用户再次点击提交按钮
+     btnSubmit.disabled= "disabled";
+     //返回true让表单可以正常提交
+     return true;
     })
   })
 </script>
