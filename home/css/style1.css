@@ -16,7 +16,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 }
 html, body {
 	color: #444;
-	background-color: #f6f6f6;
+	background-color: #392E2B;
 	overflow-x: hidden;
 }
 /*页面滚动条*/
@@ -169,7 +169,7 @@ color:#FFF;
 }
 }
 
-@media (min-width:1200px) {
+@media (min-width:960px) {
 .container {
 	width: auto;
 }
@@ -177,7 +177,6 @@ color:#FFF;
 .container {
 	position: relative;
 	margin: 0 auto;
-	max-width: 1200px;
 	padding: 0;
 }
 
@@ -460,14 +459,15 @@ color:#FFF;
 }
 /*内容*/
 .content-wrap {
-	width: 100%;
+	width: 60%;
 	float: left;
 	min-height: 1000px;
 }
 .content {
 	position: relative;
 	min-height: 500px;
-	margin-right: 380px;
+	margin-right: -190px;
+    margin-left: 210px;
 	margin-bottom: 15px;
 }
 
@@ -484,12 +484,12 @@ color:#FFF;
 	bottom: 6px;
 }
 .carousel {
-	margin-bottom: 15px;
+	margin-bottom: 35px;
 	z-index: 1;
 }
 .carousel-inner {
-	width: 100%;
-	max-height: 200px;
+	width: 625px;
+	height: 270px;
 }
 .carousel-inner .item a {
 	display: block;
@@ -497,7 +497,7 @@ color:#FFF;
 }
 .carousel-inner .item img {
 	margin: 0 auto;
-	border-radius: 4px;
+	border-radius: 10px;
 }
 .carousel-control.left, .carousel-control.right {
 	background: none;
@@ -586,20 +586,21 @@ color:#FFF;
 /*最新发布*/
 .excerpt {
 	clear: both;
-	border: 1px solid #EAEAEA;
+	border: 1px solid #483a3a;
 	padding: 20px 20px 20px 255px;
 	overflow: hidden;
-	background-color: #fff;
+	background-color: #392e2b;
 	margin-bottom: -1px;
 }
 .excerpt:hover {
-	background-color: #FBFDFF;
-	border-color: #42B5EF;
+	background-color: #352925;
 	position: relative;
 	z-index: 20;
 }
 .excerpt-1 {
-	border-radius: 4px 4px 0 0;
+	height: 150px;
+	margin-bottom: 10px;
+	border-radius: 7px 7px 0 0;
 }
 .excerpt .focus {
 	float: left;
@@ -608,8 +609,8 @@ color:#FFF;
 }
 .excerpt .thumb {
 	border-radius: 5px;
-	width: 220px;
-	height: 150px;
+	width: 150px;
+	height: 100px;
 	overflow: hidden;
 }
 .excerpt img {
@@ -658,7 +659,7 @@ color:#FFF;
 	font-weight: bold;
 }
 .excerpt h2 a {
-	color: #555;
+	color: #afaaaa;
 }
 .excerpt h2 a:hover {
 	color: #3399CC;
@@ -686,6 +687,7 @@ color:#FFF;
 }
 .excerpt .note {
 	font-size: 12px;
+	height: 40px;
 	color: #999;
 	word-wrap: break-word;
 	line-height: 20px;
@@ -1220,8 +1222,8 @@ color:#FFF;
 /*侧边栏*/
 .sidebar {
 	float: left;
-	margin-left: -360px;
-	width: 360px;
+	margin-left: 210px;
+	width: 300px;
 	position: relative;
 }
 .widget {
@@ -1248,7 +1250,8 @@ color:#FFF;
 }
 /*侧边栏标签页*/
 .widget-tabs {
-	height: 200px;
+	height: 160px;
+	width: 280px;
 }
 .nav-tabs {
 	background-color: #fbfbfb;

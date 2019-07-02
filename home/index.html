@@ -8,7 +8,7 @@
 <title>简博客-简单，免费个人博客</title>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/nprogress.css">
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 <link rel="apple-touch-icon-precomposed" href="images/icon/icon.jpg">
 <link rel="shortcut icon" href="images/icon/icon.jpg">
@@ -41,10 +41,10 @@
             </ul>
           </li>
         </ul>
-        <a data-toggle="modal" data-target="#loginModal" class="login" rel="nofollow">Hi,你好</a>&nbsp;&nbsp;<a href="../login.html" class="register" rel="nofollow">作者登录</a>&nbsp;&nbsp;<a href="" rel="nofollow"></a> </div>
+        <a data-toggle="modal" data-target="#loginModal" class="login" rel="nofollow">Hi,你好</a>&nbsp;&nbsp;<a href="www.jianblog.com.cn/login" class="register" rel="nofollow">作者登录</a>&nbsp;&nbsp;<a href="" rel="nofollow"></a> </div>
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-        <h1 class="logo hvr-bounce-in"><a href="" title=""><img src="images/logo.jpg" alt=""></a></h1>
+        <h1 class="logo hvr-bounce-in"><a href="" title=""><img src="images/logo.png" alt=""></a></h1>
       </div>
       <div class="collapse navbar-collapse" id="header-navbar">
         <ul class="nav navbar-nav navbar-right">
@@ -77,10 +77,18 @@
             <!--<div class="carousel-caption"> </div>--> 
           </div>
         </div>
-        <a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> </div>
+        <a class="left carousel-control" href="#focusslide"  role="button" data-slide="prev" rel="nofollow"> 
+        	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 
+        	<span class="sr-only">上一个</span> 
+        </a> 
+        <a class="right carousel-control" href="#focusslide"  role="button" data-slide="next" rel="nofollow"> 
+        	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> 
+        	<span class="sr-only">下一个</span> 
+        </a> 
+      </div>
         
         <!-- 文章排版 -->
-        <div id="container">
+        <div id="container" style="width: 625px">
          <!--  <article class="excerpt excerpt-1">
             <input type="hidden" id="blog-id">
              <img id="blog-img" class="thumb" data-original="images/excerpt.jpg" src="images/excerpt.jpg" alt="">
@@ -97,11 +105,7 @@
             <p id="blog-description" class="note"></p>
           </article> -->
         </div>
-
-        <div class="row">
-          <!--分页导航条信息 -->
-          <div class="col-md-6 col-sm-6" id="page_nav_area"></div>
-        </div>
+        <span id="scroll_loading" style="text-align: center;"></span>
     </div>
   </div>
 
@@ -119,7 +123,6 @@
             暂无公告
           </div>
           <div role="tabpanel" class="tab-pane contact" id="contact">
-            <h2>Email:
             <a href="#" data-toggle="tooltip" data-placement="bottom">1016767658@qq.com</a></h2>
           </div>
         </div>
@@ -154,9 +157,9 @@
 <!-- 脚部 -->
 <footer class="footer">
   <div class="container">
-    <p>&copy; 2016 <a href="">jianblog.com</a> &nbsp; <a href="#" target="_blank" rel="nofollow">豫ICP备20151109-1</a> &nbsp; &nbsp; <a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+    <p>&copy; 2019 <a href="">jianblog.com</a> &nbsp; <a href="#" target="_blank" rel="nofollow">豫ICP备20191109-1</a> &nbsp; &nbsp; <a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
   </div>
-  <div id="gotop"><a class="gotop"></a></div>
+  <div id="gotop"><a href="#" class="gotop"></a></div>
 </footer>
 <!--微信二维码模态框-->
 <div class="modal fade user-select" id="WeChat" tabindex="-1" role="dialog" aria-labelledby="WeChatModalLabel">
@@ -230,7 +233,8 @@ var contentsList = [];
 $(function(){
 
   var totalRecord,currentPage;
-  to_page(1)
+  var pageNum=1;
+  to_page(pageNum);
      /**
      * 1.显示所有数据
      * @param pn
@@ -248,11 +252,8 @@ $(function(){
             success:function (result) {
                 if (0 == result.code){
                    contentsList = result.data.list;
-
+                   //解析数据
                    reloadDom();
-
-                   //解析并显示分页条数据
-                   build_page_nav(result);
                 }
             }
 
@@ -266,7 +267,7 @@ $(function(){
 	 * 之后给每行添加id，方便获取每个content的详情信息
 	 */
 	function reloadDom(){
-	    $("#container").empty();
+	    //$("#container").empty();
 	    for (var i=0; i<contentsList.length; i++) {
 	        var contentDo = contentsList[i];
 	        var dom = "<article class='excerpt excerpt-1'>\n" +
@@ -298,64 +299,24 @@ $(function(){
 	    }
 	}
 
-
-    /**
-     * 解析显示分页导航条
-     * @param data
-     */
-    function build_page_nav(result) {
-        $("#page_nav_area").empty();
-        var ul = $("<ul></ul>").addClass("pagination");
-        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
-        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;").attr("href", "#"));
-        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;").attr("href", "#"));
-        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
-        //如果没有前一页，前一页和首页就不能点
-        if (result.data.hasPreviousPage == false) {
-            firstPageLi.addClass("disabled");
-            prePageLi.addClass("disabled");
-        } else {
-            //首页
-            firstPageLi.click(function () {
-                to_page(1);
-            });
-            prePageLi.click(function () {
-                to_page(result.data.pageNum - 1);
-            });
+	/**
+    * 滚动加载
+    */
+   	var isbool = true;//触发开关，防止多次调用事件  
+   	$(window).scroll(function() {
+   		//获得的是滚动条的高度
+   		var scrollerh = $(document).scrollTop();
+   		//获得当前窗体可视区域的高度
+        var viewbody = $(window).height();
+        //获得整个文档的高度
+        var allbody = $(document).height();
+        if (scrollerh + viewbody > allbody - 100 && isbool==true) {
+        	isbool=false;
+            to_page(pageNum+1)
         }
-        if (result.data.hasNextPage == false) {
-            nextPageLi.addClass("disabled");
-            lastPageLi.addClass("disabled");
-        } else {
-            //构建点击事件
-            nextPageLi.click(function () {
-                to_page(result.data.pageNum + 1);
-            });
-            lastPageLi.click(function () {
-                to_page(result.data.lastPage);
-            })
-        }
-        //添加首页和前一页
-        ul.append(firstPageLi).append(prePageLi);
-        //遍历添加页码
-        $.each(result.data.navigatepageNums, function (index, item) {
-            var numLi = $("<li></li>").append($("<a></a>").append(item).attr("href", "#"));
-            //如果是当前选中页面，添加active标识
-            if (result.data.pageNum == item) {
-                numLi.addClass("active");
-            }
-            //给每个页码添加点击就跳转
-            numLi.click(function () {
-                to_page(item);
-            });
-            ul.append(numLi);
-        });
-        //添加下一页和末页
-        ul.append(nextPageLi).append(lastPageLi);
-        var navEle = $("<nav></nav>").append(ul);
-        navEle.appendTo("#page_nav_area");
-    }
-
+	});
+   	
+	
     /**
      * 搜索
      */
@@ -385,7 +346,7 @@ $(function(){
 
         });
     })
-
+   
 	/**
 	 * 网站公告
 	 */
