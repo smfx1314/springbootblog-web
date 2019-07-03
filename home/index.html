@@ -41,7 +41,7 @@
             </ul>
           </li>
         </ul>
-        <a data-toggle="modal" data-target="#loginModal" class="login" rel="nofollow">Hi,你好</a>&nbsp;&nbsp;<a href="www.jianblog.com.cn/login" class="register" rel="nofollow">作者登录</a>&nbsp;&nbsp;<a href="" rel="nofollow"></a> </div>
+        <a data-toggle="modal" data-target="#loginModal" class="login" rel="nofollow">Hi,你好</a>&nbsp;&nbsp;<!-- <a href="www.jianblog.com.cn/login" class="register" rel="nofollow">作者登录</a>&nbsp;&nbsp;<a href="" rel="nofollow"></a> --> </div>
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> <span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
         <h1 class="logo hvr-bounce-in"><a href="" title=""><img src="images/logo.png" alt=""></a></h1>
@@ -261,6 +261,7 @@ $(function(){
     }
 
 
+
 	/**
 	 * contents列表浏览
 	 * 遍历数组，append到tbody中
@@ -270,6 +271,75 @@ $(function(){
 	    //$("#container").empty();
 	    for (var i=0; i<contentsList.length; i++) {
 	        var contentDo = contentsList[i];
+	        var dom = "<article class='excerpt excerpt-1'>\n" +
+	        "    <span class='focus'>\n" +
+	        "        <img class='thumb' src='http://localhost:8080/image/"+contentDo.titleUrl+"'></span>\n" +
+	        "    <header>\n" +
+	        "        <a class='cat' href='program'>简blog</a>\n" +
+	        "        <h2>\n" +
+	        "            <a id='blog-title"+contentDo.bid+"' value='"+contentDo.bid+"'>"+contentDo.title+"</a>\n" +
+	        "        </h2>\n" +
+	        "    </header>\n" +
+	        "    <p class='meta'>\n" +
+	        "        <time class='time'>\n" +
+	        "            <i id='blog-time' class='glyphicon glyphicon-time'>"+contentDo.created+"</i>\n" +
+	        "        </time>\n" +
+	        "    <p class='note'>"+contentDo.description+"</p>\n" +
+	        "</article>";
+	            //添加到tbody容器中
+	        $("#container").append($(dom));
+	        /**
+	         * 给文章绑定一个点击事件，点击并传递id参数，跳转至content详情页面并根据id查询
+	         * @param  {String} ) {                       window.location.href [description]
+	         * @return {[type]}   [description]
+	         */
+	        $('#blog-title'+contentDo.bid).on("click",function(){
+	        	var id=$(this).attr("value");
+		        window.location.href="blog-article.html?id="+id;
+	        })
+	    }
+	}
+
+ 	/**
+     * 搜索
+     */
+    $("#search").on("click",function(){
+    	var keyword = $("#keyword").val();
+    	if (keyword =="") {
+    		alert("请输入关键字")
+    		return false;
+    	}
+    	$.ajax({
+            url:"http://localhost:8081/blog/getBlogByFuzzyQuery",
+            type:"GET",
+            xhrFields:{
+            	widthCredentials:true
+            },
+            data:{
+              "keyword": keyword
+            },
+            success:function (result) {
+                if (0 == result.code){
+                   serachList = result.data;
+                   keywordSerach();
+
+                }
+            }
+
+        });
+    })
+
+    /**
+	 * serachList列表浏览
+	 * 遍历数组，append到tbody中
+	 * 之后给每行添加id，方便获取每个content的详情信息
+	 */
+	var serachList = [];
+	function keywordSerach(){
+	    $("#container").empty();
+	    isbool=false;
+	    for (var i=0; i<serachList.length; i++) {
+	        var contentDo = serachList[i];
 	        var dom = "<article class='excerpt excerpt-1'>\n" +
 	        "    <span class='focus'>\n" +
 	        "        <img class='thumb' src='http://localhost:8080/image/"+contentDo.titleUrl+"'></span>\n" +
@@ -316,36 +386,6 @@ $(function(){
         }
 	});
    	
-	
-    /**
-     * 搜索
-     */
-    $("#search").on("click",function(){
-    	var keyword = $("#keyword").val();
-    	if (keyword =="") {
-    		alert("请输入关键字")
-    		return false;
-    	}
-    	$.ajax({
-            url:"http://localhost:8081/blog/getBlogByFuzzyQuery",
-            type:"GET",
-            xhrFields:{
-            	widthCredentials:true
-            },
-            data:{
-              "keyword": keyword
-            },
-            success:function (result) {
-                if (0 == result.code){
-                   contentsList = result.data.list;
-
-                   reloadDom();
-
-                }
-            }
-
-        });
-    })
    
 	/**
 	 * 网站公告
